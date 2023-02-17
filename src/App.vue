@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
 import Button from './components/Button.vue'
 import Dropdown from './components/Dropdown.vue'
+import Table from './components/Table.vue'
 </script>
 
 <template>
@@ -12,7 +12,16 @@ import Dropdown from './components/Dropdown.vue'
   <div class="foo">
     <Dropdown prefix="Selected: " :items="['Nothing', 'lorem', 'ipsum', 'amet']" />
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="foo">
+    <Table
+      :head="['id', 'kind', 'name']"
+      :rows="[
+        ['1', 'Contact', 'Vasya'],
+        ['2', 'Company', 'Apple'],
+        ['3', 'Lead', 'Buy bread in grocery'],
+      ]"
+    />
+  </div>
 </template>
 
 <style scoped>
@@ -23,17 +32,5 @@ import Dropdown from './components/Dropdown.vue'
   gap: 26px;
   margin: auto;
   margin-bottom: 120px;
-}
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>

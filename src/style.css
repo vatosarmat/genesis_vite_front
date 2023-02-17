@@ -9,8 +9,11 @@
   --c-grey: #cccccc;
   --c-grey-l1: #ededed;
   --c-light: #fcfcfc;
-
   --c-primary: #4c8bf7;
+
+  --l-height: 48px;
+  --l-padding: 0.6em;
+  --l-border-radius: 4px;
 
   color: var(--c-dark);
 }
@@ -27,6 +30,11 @@ body {
 
 li {
   list-style-type: none;
+}
+
+button {
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 #app {

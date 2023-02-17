@@ -10,21 +10,16 @@ const { isLoading } = defineProps<{ isLoading?: boolean }>()
 </script>
 
 <style scoped lang="scss">
-$height: 48px;
-$border_radius: 4px;
-$font_size: 1.2rem;
-$padding: 0.6em;
-
 button {
-  font-size: $font_size;
+  font-size: 1.2rem;
   font-weight: 600;
 
-  height: $height;
-  min-width: $height;
-  border-radius: $border_radius;
+  height: var(--l-height);
+  min-width: var(--l-height);
+  border-radius: var(--l-border-radius);
   border: 1px solid var(--c-grey);
   cursor: pointer;
-  padding: $padding;
+  padding: var(--l-padding);
   background-color: var(--c-light);
   color: var(--c-dark);
 
@@ -42,7 +37,7 @@ button {
   &.loading {
     cursor: not-allowed;
     padding: 0;
-    width: $height;
+    width: var(--l-height);
   }
 }
 

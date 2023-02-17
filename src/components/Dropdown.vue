@@ -1,5 +1,5 @@
 <template>
-  <div v-click-outside="clickOutside">
+  <div class="dropdown" v-click-outside="clickOutside">
     <button
       ref="togglerRef"
       class="toggler"
@@ -43,24 +43,22 @@ const clickOutside = () => {
 </script>
 
 <style scoped lang="scss">
-$padding: 0.6em;
+$icon_size: calc(var(--l-height) / 3);
 $width: 240px;
-$height: 48px;
-$font_size: 1.2rem;
-$icon_size: calc($height / 3);
-$border_radius: 4px;
+
+.dropdown {
+  cursor: pointer;
+}
 
 .toggler {
-  font-size: $font_size;
-  padding: $padding;
+  min-width: 240px;
+  padding: var(--l-padding);
 
-  min-width: $width;
-  height: $height;
+  height: var(--l-height);
   border: 1px solid var(--c-grey);
-  border-radius: $border_radius;
+  border-radius: var(--l-border-radius);
   background-color: var(--c-light);
   color: var(--c-dark);
-  cursor: pointer;
   text-align: left;
 
   display: flex;
@@ -74,24 +72,22 @@ $border_radius: 4px;
   }
 
   &.is-open {
-    border-radius: $border_radius $border_radius 0 0;
+    border-radius: var(--l-border-radius) var(--l-border-radius) 0 0;
   }
 }
 
 .list {
+  min-width: 240px;
   position: absolute;
   z-index: 100;
   border: 1px solid var(--c-grey);
-  border-radius: 0 0 $border_radius $border_radius;
-  min-width: $width;
+  border-radius: 0 0 var(--l-border-radius) var(--l-border-radius);
+  background-color: var(--c-light);
 }
 
 .list-item {
-  font-size: $font_size;
-  padding: $padding;
-
-  cursor: pointer;
-  height: $height;
+  padding: var(--l-padding);
+  height: var(--l-height);
 
   display: flex;
   align-items: center;
@@ -104,7 +100,7 @@ $border_radius: 4px;
     color: var(--c-grey-d4);
     width: $icon_size;
     height: $icon_size;
-    margin-right: $padding;
+    margin-right: var(--l-padding);
 
     visibility: hidden;
   }
