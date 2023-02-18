@@ -63,9 +63,9 @@ const onButtonClick = () => {
   const prom = createEntity(entityKind.value.value, entityName.value)
   isLoading.value = true
   prom.then(({ id, name }) => {
-    isLoading.value = false
     entityName.value = ''
     tableRows.push([id.toString(), entityKind.value.label, name])
+    isLoading.value = false
   })
 }
 </script>

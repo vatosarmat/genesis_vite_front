@@ -36,7 +36,6 @@ li {
 button {
   font-size: 1rem;
   cursor: pointer;
-  outline-color: var(--c-primary);
 }
 
 input {

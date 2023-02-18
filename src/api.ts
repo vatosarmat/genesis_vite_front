@@ -37,7 +37,7 @@ export const createEntity = async (
   _kind: string,
   name: string
 ): Promise<JsonDict<{ id: number; name: string }>> => {
-  await waitForTimeout(Math.random() * 1000)
+  await waitForTimeout(Math.random() * 5000)
 
   return {
     id: counter++,
