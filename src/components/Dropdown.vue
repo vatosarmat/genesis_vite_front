@@ -76,6 +76,7 @@ $icon_size: calc(var(--l-height) / 3);
   border: 1px solid var(--c-grey);
   border-radius: var(--l-border-radius);
 
+  outline-color: var(--c-primary);
   background-color: var(--c-light);
   color: var(--c-dark);
   text-align: left;

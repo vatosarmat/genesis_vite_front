@@ -5,32 +5,37 @@
       class="name-input"
       placeholder="Имя"
       v-model.trim="entityName"
-      :disabled="isLoading"
+      :disabled="entitiesStore.isLoading"
     />
     <div class="button-box">
       <Button
         :disabled="entityKind.value === 'none'"
         @click="onButtonClick"
-        :isLoading="isLoading"
+        :isLoading="entitiesStore.isLoading"
         >Создать</Button
       >
     </div>
   </div>
-  <Table
-    v-if="tableRows.length > 0"
-    :head="['id', 'kind', 'name']"
-    :rows="tableRowsDesc"
+  <p class="error" v-if="entitiesStore.errorMessage">
+    {{ 'Error: ' + entitiesStore.errorMessage }}
+  </p>
+  <EntitiesTable
+    v-if="!entitiesStore.isEmpty"
+    :headerLabels="{ kind: 'Сущность', name: 'Имя', created_at: 'Секунда создания' }"
+    :entityKindLabels="{ lead: 'Сделка', contact: 'Контакт', company: 'Компания' }"
   />
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref } from 'vue'
 
 import Button from './components/Button.vue'
 import Dropdown, { Item } from './components/Dropdown.vue'
-import Table from './components/Table.vue'
+import EntitiesTable from './components/EntitiesTable.vue'
 
-import { createEntity } from './api'
+import { useEntitiesStore, EntityKind } from './stores/entities'
+
+const entitiesStore = useEntitiesStore()
 
 const entityKindOptions = [
   { value: 'none', label: 'Не выбрано' },
@@ -41,10 +46,6 @@ const entityKindOptions = [
 
 const entityKind = ref<Item>(entityKindOptions[0])
 const entityName = ref('')
-const isLoading = ref(false)
-const tableRows = reactive<string[][]>([])
-
-const tableRowsDesc = computed(() => [...tableRows].reverse())
 
 /* console.log(entityKind)
 console.log(entityName)
@@ -59,18 +60,26 @@ window.R = tableRows
 //@ts-expect-error
 window.D = tableRowsDesc
 */
+
 const onButtonClick = () => {
-  const prom = createEntity(entityKind.value.value, entityName.value)
-  isLoading.value = true
-  prom.then(({ id, name }) => {
-    entityName.value = ''
-    tableRows.push([id.toString(), entityKind.value.label, name])
-    isLoading.value = false
-  })
+  entitiesStore
+    .apiCreateEntity(entityKind.value.value as EntityKind, entityName.value)
+    .then(() => {
+      entityName.value = ''
+    })
 }
 </script>
 
 <style scoped lang="scss">
+.error {
+  color: red;
+  font-size: 2rem;
+  font-family: serif;
+  font-style: italic;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
 .form-row {
   display: flex;
   flex-direction: row;

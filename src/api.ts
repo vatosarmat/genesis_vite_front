@@ -32,15 +32,35 @@ type JsonDict<T = object> = _JsonDict & T
 //   throw new Error('createEntity failed')
 // }
 
-let counter = 1
-export const createEntity = async (
-  _kind: string,
+export type EntityKind = 'contact' | 'lead' | 'company'
+
+export type Entity = {
+  id: number
+  kind: EntityKind
   name: string
-): Promise<JsonDict<{ id: number; name: string }>> => {
-  await waitForTimeout(Math.random() * 5000)
+  created_at: number
+}
+
+let counter = 1
+const initialDate = Date.now()
+export const createEntity = async (
+  kind: EntityKind,
+  name: string
+): Promise<JsonDict<Entity>> => {
+  await waitForTimeout(Math.random() * 1000)
+
+  const random = Math.random()
+  if (random > 0.8) {
+    throw new Error('Server is broken!')
+  }
+  if (random > 0.6) {
+    throw new Error('You are not allowed!')
+  }
 
   return {
     id: counter++,
+    kind,
     name,
+    created_at: Date.now() - initialDate,
   }
 }

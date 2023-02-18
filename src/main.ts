@@ -1,4 +1,6 @@
 import { createApp, Directive } from 'vue'
+import { createPinia } from 'pinia'
+
 import './style.css'
 import App from './App.vue'
 
@@ -24,4 +26,5 @@ const clickOutside: Directive<
   },
 }
 
-createApp(App).directive('click-outside', clickOutside).mount('#app')
+const pinia = createPinia()
+createApp(App).directive('click-outside', clickOutside).use(pinia).mount('#app')
