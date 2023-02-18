@@ -1,12 +1,12 @@
 <template>
-  <button :disabled="isLoading" :class="{ loading: isLoading }">
-    <span v-if="isLoading" class="loader"></span>
+  <button :disabled="props.isLoading" :class="{ loading: props.isLoading }">
+    <span v-if="props.isLoading" class="loader"></span>
     <slot v-else>Button</slot>
   </button>
 </template>
 
 <script setup lang="ts">
-const { isLoading } = defineProps<{ isLoading?: boolean }>()
+const props = defineProps<{ isLoading?: boolean }>()
 </script>
 
 <style scoped lang="scss">
@@ -23,12 +23,17 @@ button {
   background-color: var(--c-light);
   color: var(--c-dark);
 
-  &:hover {
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:enabled:hover {
     color: var(--c-primary);
     border-color: var(--c-primary);
   }
 
-  &:active,
+  &:enabled:active,
   &.loading {
     color: var(--c-light);
     background-color: var(--c-primary);

@@ -2,13 +2,13 @@
   <table>
     <thead>
       <tr>
-        <th v-for="(th, idx) in head" :key="idx">
+        <th v-for="(th, idx) in props.head" :key="idx">
           {{ th }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, idx) in rows" :key="idx">
+      <tr v-for="(row, idx) in props.rows" :key="idx">
         <td v-for="(col, idx) in row" :key="idx">
           {{ col }}
         </td>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-const { head, rows } = defineProps<{
+const props = defineProps<{
   head: string[]
   rows: string[][]
 }>()

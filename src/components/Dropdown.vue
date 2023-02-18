@@ -1,24 +1,19 @@
 <template>
   <div class="dropdown" v-click-outside="clickOutside">
-    <button
-      ref="togglerRef"
-      class="toggler"
-      :class="{ 'is-open': isOpen }"
-      @click="isOpen = !isOpen"
-    >
-      <span>{{ prefix + selected }}</span>
+    <button class="toggler" :class="{ 'is-open': isOpen }" @click="isOpen = !isOpen">
+      <span>{{ props.prefix + itemLabel(props.modelValue) }}</span>
       <AngleDown />
     </button>
     <ul class="list" v-if="isOpen">
       <li
-        v-for="(item, idx) in items"
+        v-for="(item, idx) in props.items"
         :key="idx"
-        @click="selected = item"
+        @click="onItemClick(item)"
         class="list-item"
-        :class="{ selected: selected === item }"
+        :class="{ selected: itemValue(props.modelValue) === itemValue(item) }"
       >
         <Check />
-        <span>{{ item }}</span>
+        <span>{{ itemLabel(item) }}</span>
       </li>
     </ul>
   </div>
@@ -29,13 +24,34 @@ import { ref } from 'vue'
 
 import AngleDown from './icons/AngleDown.vue'
 import Check from './icons/Check.vue'
-const { prefix, items } = defineProps<{
-  prefix: string
-  items: string[]
+export type Item = { value: string; label: string }
+const props = withDefaults(
+  defineProps<{
+    prefix?: string
+    items: Item[] | string[]
+    modelValue: Item | string
+  }>(),
+  {
+    prefix: '',
+  }
+)
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: Item | string): void
 }>()
 
-let isOpen = ref(false)
-const selected = ref<string>(items[0])
+const isOpen = ref(false)
+
+const itemLabel = (item: string | Item) => {
+  return typeof item === 'string' ? item : item.label
+}
+const itemValue = (item: string | Item) => {
+  return typeof item === 'string' ? item : item.value
+}
+
+const onItemClick = (item: Item | string) => {
+  emit('update:modelValue', item)
+}
 
 const clickOutside = () => {
   isOpen.value = false
@@ -44,19 +60,22 @@ const clickOutside = () => {
 
 <style scoped lang="scss">
 $icon_size: calc(var(--l-height) / 3);
-$width: 240px;
 
 .dropdown {
   cursor: pointer;
+  position: relative;
 }
 
 .toggler {
-  min-width: 240px;
+  /*if got stretched by flexbox*/
+  width: 100%;
+  /*if not*/
+  min-width: var(--l-width);
   padding: var(--l-padding);
-
   height: var(--l-height);
   border: 1px solid var(--c-grey);
   border-radius: var(--l-border-radius);
+
   background-color: var(--c-light);
   color: var(--c-dark);
   text-align: left;
@@ -77,15 +96,18 @@ $width: 240px;
 }
 
 .list {
-  min-width: 240px;
   position: absolute;
   z-index: 100;
+  width: 100%;
   border: 1px solid var(--c-grey);
   border-radius: 0 0 var(--l-border-radius) var(--l-border-radius);
+
   background-color: var(--c-light);
 }
 
 .list-item {
+  min-width: var(--l-width);
+  width: 100%;
   padding: var(--l-padding);
   height: var(--l-height);
 
