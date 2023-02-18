@@ -22,13 +22,20 @@ export const useEntitiesStore = defineStore('entities', () => {
     })
     return createEntity(kind, name)
       .then(entity => {
-        data[kind].value[entity.id] = entity
+        //@ts-expect-error
+        this.$patch(state => {
+          state.isLoading = false
+          data[kind].value[entity.id] = entity
+        })
+        return true
       })
       .catch((err: Error) => {
-        errorMessage.value = err.message
-      })
-      .finally(() => {
-        isLoading.value = false
+        //@ts-expect-error
+        this.$patch(state => {
+          state.isLoading = false
+          state.errorMessage = err.message
+        })
+        return false
       })
   }
 

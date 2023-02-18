@@ -47,25 +47,13 @@ const entityKindOptions = [
 const entityKind = ref<Item>(entityKindOptions[0])
 const entityName = ref('')
 
-/* console.log(entityKind)
-console.log(entityName)
-console.log(tableRows)
-console.log(tableRowsDesc)
-//@ts-expect-error
-window.K = entityKind
-//@ts-expect-error
-window.N = entityName
-//@ts-expect-error
-window.R = tableRows
-//@ts-expect-error
-window.D = tableRowsDesc
-*/
-
 const onButtonClick = () => {
   entitiesStore
     .apiCreateEntity(entityKind.value.value as EntityKind, entityName.value)
-    .then(() => {
-      entityName.value = ''
+    .then(success => {
+      if (success) {
+        entityName.value = ''
+      }
     })
 }
 </script>
